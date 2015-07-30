@@ -6,6 +6,11 @@ in front of the primary webcam. Mugshots are taken if at least ten seconds have 
 detecting a face or the number of faces changed between two capture frames. All captured faces are
 stored in the current directory, indexed by the current time and their number.
 
+# Requirements
+
+* Python 2
+* OpenCV (>= 2.4)
+
 # Usage
 
 By default, run
