@@ -1,9 +1,37 @@
 #!/usr/bin/env python2
+#
+# mugshot.py: Creates automated mugshots of people near your computer
+#             Inspired by Neal Stephenson's "Cryptonomicon"
+#
+# Copyright (C) 2015 Bastian Rieck 
+# 
+# Permission is hereby granted, free of charge, to any person obtaining a copy of
+# this software and associated documentation files (the "Software"), to deal in
+# the Software without restriction, including without limitation the rights to
+# use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
+# of the Software, and to permit persons to whom the Software is furnished to do
+# so, subject to the following conditions:
+# 
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+# 
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
 
+import argparse
 import cv2
 import datetime
 
-webcam = cv2.VideoCapture(0)
+parser = argparse.ArgumentParser(description="Creates automated mugshots of people near your computer")
+parser.add_argument("--hide", help="Do not show the detected faces", action="store_true")
+
+arguments = parser.parse_args()
+webcam    = cv2.VideoCapture(0)
 
 if webcam:
   gotFrame, frame = webcam.read()
@@ -47,7 +75,8 @@ while gotFrame:
       filename = lastTime.strftime("%Y%m%d-%H%M%S")+"-"+str(i)+".png"
       cv2.imwrite(filename, face)
 
-  cv2.imshow("", gray)
+  if not arguments.hide:
+    cv2.imshow("", gray)
 
   key = cv2.waitKey(200)
   if key in [27, ord('q')]:
